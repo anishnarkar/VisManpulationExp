@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import BatchNormalization
 from tensorflow.keras.layers import Conv2D
