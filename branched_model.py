@@ -1,3 +1,5 @@
+# Reference: https://www.pyimagesearch.com/2018/06/04/keras-multiple-outputs-and-multiple-losses/
+
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import BatchNormalization
 from tensorflow.keras.layers import Conv2D
