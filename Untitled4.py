@@ -1,0 +1,124 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import MaxPooling2D
+from tensorflow.keras.layers import Activation
+from tensorflow.keras.layers import Dropout
+from tensorflow.keras.layers import Lambda
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import Input
+import tensorflow as tf
+
+class AgenNet:
+    @staticmethod
+    def build_category_branch(inputs, numCategories,
+        finalAct="softmax", chanDim=-1):
+        
+        x = Lambda(lambda c: tf.image.rgb_to_grayscale(c))(inputs)
+        # CONV => RELU => POOL
+        x = Conv2D(32, (3, 3), padding="same")(x)
+        x = Activation("relu")(x)
+        x = BatchNormalization(axis=chanDim)(x)
+        x = MaxPooling2D(pool_size=(3, 3))(x)
+        x = Dropout(0.25)(x)
+        
+        # (CONV => RELU) * 2 => POOL
+        x = Conv2D(64, (3, 3), padding="same")(x)
+        x = Activation("relu")(x)
+        x = BatchNormalization(axis=chanDim)(x)
+        x = Conv2D(64, (3, 3), padding="same")(x)
+        x = Activation("relu")(x)
+        x = BatchNormalization(axis=chanDim)(x)
+        x = MaxPooling2D(pool_size=(2, 2))(x)
+        x = Dropout(0.25)(x)
+        # (CONV => RELU) * 2 => POOL
+        x = Conv2D(128, (3, 3), padding="same")(x)
+        x = Activation("relu")(x)
+        x = BatchNormalization(axis=chanDim)(x)
+        x = Conv2D(128, (3, 3), padding="same")(x)
+        x = Activation("relu")(x)
+        x = BatchNormalization(axis=chanDim)(x)
+        x = MaxPooling2D(pool_size=(2, 2))(x)
+        x = Dropout(0.25)(x)
+        
+        # define a branch of output layers for the number of different gender categries
+       
+        x = Flatten()(x)
+        x = Dense(256)(x)
+        x = Activation("relu")(x)
+        x = BatchNormalization()(x)
+        x = Dropout(0.5)(x)
+        x = Dense(numCategories)(x)
+        x = Activation(finalAct, name="category_output")(x)
+        
+        # return the category prediction sub-network
+        return x
+    
+    @staticmethod
+    def build_age_branch(inputs, num_age_categories, finalAct="softmax",
+        chanDim=-1):
+        # CONV => RELU => POOL
+        x = Conv2D(16, (3, 3), padding="same")(inputs)
+        x = Activation("relu")(x)
+        x = BatchNormalization(axis=chanDim)(x)
+        x = MaxPooling2D(pool_size=(3, 3))(x)
+        x = Dropout(0.25)(x)
+        # CONV => RELU => POOL
+        x = Conv2D(32, (3, 3), padding="same")(x)
+        x = Activation("relu")(x)
+        x = BatchNormalization(axis=chanDim)(x)
+        x = MaxPooling2D(pool_size=(2, 2))(x)
+        x = Dropout(0.25)(x)
+        # CONV => RELU => POOL
+        x = Conv2D(32, (3, 3), padding="same")(x)
+        x = Activation("relu")(x)
+        x = BatchNormalization(axis=chanDim)(x)
+        x = MaxPooling2D(pool_size=(2, 2))(x)
+        x = Dropout(0.25)(x)
+        
+        # define a branch of output layers for the number of different
+        # colors (i.e., red, black, blue, etc.)
+        x = Flatten()(x)
+        x = Dense(128)(x)
+        x = Activation("relu")(x)
+        x = BatchNormalization()(x)
+        x = Dropout(0.5)(x)
+        x = Dense(num_age_categories)(x)
+        x = Activation(finalAct, name="age_output")(x)
+        
+        # return the color prediction sub-network
+        return x
+    
+    @staticmethod
+    def build(width, height, numCategories, num_age_categories,
+        finalAct="softmax"):
+        # initialize the input shape and channel dimension (this code
+        # assumes you are using TensorFlow which utilizes channels
+        # last ordering)
+        inputShape = (height, width, 3)
+        chanDim = -1
+        # construct both the "category" and "color" sub-networks
+        inputs = Input(shape=inputShape)
+        categoryBranch = FashionNet.build_category_branch(inputs,
+            numCategories, finalAct=finalAct, chanDim=chanDim)
+        colorBranch = FashionNet.build_color_branch(inputs,
+            num_age_categories, finalAct=finalAct, chanDim=chanDim)
+        # create the model using our input (the batch of images) and
+        # two separate outputs -- one for the clothing category
+        # branch and another for the color branch, respectively
+        model = Model(
+            inputs=inputs,
+            outputs=[categoryBranch, colorBranch],
+            name="fashionnet")
+        
+        # return the constructed network architecture
+        return model
+    
+
