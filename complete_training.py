@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 from tensorflow.keras.callbacks import EarlyStopping, LearningRateScheduler, ModelCheckpoint, TensorBoard
-import multi_model as generate_models
+from branched_model import AgeNet
 
 def lr_scheduler(epoch, learning_rate):
     initial_learning_rate = 0.1
