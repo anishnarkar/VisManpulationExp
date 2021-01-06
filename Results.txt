@@ -1,0 +1,91 @@
+Results - Binary
+
+1. No pre-processing
+
+Model accuracy is:  0.7355
+Female Class accuracy is 0.7425
+Male Class accuracy is  0.7300
+---------------------------------------------
+
+2. With Pre-processing (No 0-5 Balancing)
+
+Model accuracy is:  0.7815
+Female Class accuracy is 0.8004
+Male Class accuracy is  0.7655
+
+0-5 Age group Accuracy
+
+Female Class accuracy is 0.4914
+
+Male Class accuracy is  0.4824
+---------------------------------------------------
+
+3. Pre-Processing + Age Balancing
+
+Model accuracy is:  0.9173
+
+Female Class accuracy is 0.9200
+
+Male Class accuracy is  0.9162
+
+0-5 Age group Accuracy
+
+Female Class accuracy is 0.9124
+
+Male Class accuracy is  0.9217
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
+
+Results - Branched Model
+
+1. No pre-processing
+
+Gender Classification
+
+Model accuracy is:  0.7255
+Female Class accuracy is 0.7125
+Male Class accuracy is  0.7354
+
+Age Classification
+
+Model accuracy is:  0.7824
+0-10 accuracy is 0.8004
+11-20 accuracy is  0.7455
+21-35 accuracy is  0.7641
+36-50 accuracy is  0.7842
+50+ accuracy is  0.7987
+
+0-5 Age group Gender Accuracy
+
+Female Class accuracy is 0.4963
+
+Male Class accuracy is  0.4879
+
+------------------------------------------
+
+
+2. Pre-Processing + Age Balancing
+
+Gender Classification
+
+Model accuracy is:  0.9255
+Female Class accuracy is 0.9344
+Male Class accuracy is  0.9212
+
+Age Classification
+
+Model accuracy is:  0.8698
+0-10 accuracy is 0.8875
+11-20 accuracy is  0.7912
+21-35 accuracy is  0.8452
+36-50 accuracy is  0.8654
+50+ accuracy is  0.8874
+
+0-5 Age group Gender Accuracy
+
+Female Class accuracy is 0.9142
+
+Male Class accuracy is  0.9354
+
