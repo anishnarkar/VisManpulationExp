@@ -1,17 +1,16 @@
-### This is the repo which experiments the impact of pre-processing on classification of gender and age group from the a dataset of images of individuals which is obtained from https://paperswithcode.com/task/age-and-gender-classification
+####  This is the repo in which results of experiments on the impact of data augmentation and pre-processing in form of data balancing on classification of gender and age group. 
+##### NOTE: Original Dataset not available, simialar dataset of images of individuals which is obtained from https://paperswithcode.com/task/age-and-gender-classification
 
 I completed this experiment in two parts:
 1. Binary Classification for gender
 2. A branched model to classify both gender and age group in the same network
 Reference: https://www.pyimagesearch.com/2018/06/04/keras-multiple-outputs-and-multiple-losses/
 
-
-
-### 1. Model + Weight
+#### 1. Model + Weight
 1A. get_base_model.py -> This contains both the frozen pre-trained model + New layers on top used for classifying gender -> referred as primary model
 1B. branched_model.py -> This is the branched model which is used for classifying both gender and age group-> referred as secondary model
 
-#### NOTE Links for pre-trained weights not working 
+##### NOTE Links for pre-trained weights not working 
 
 #### 2. Training + Evaluation -> Primary Model
 2A. Training.py -> Code for training primary model
@@ -63,8 +62,3 @@ Reference: https://www.pyimagesearch.com/2018/06/04/keras-multiple-outputs-and-m
 3. Accuracy extremely high for lowest and highest age groups accross all the models
 4. Convergence rate is almost similar 
 5. Lower accuracy for 0-5 Age group again in gender classification
-
-
-```python
-
-```
